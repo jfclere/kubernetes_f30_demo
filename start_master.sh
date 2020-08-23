@@ -13,6 +13,11 @@ if [ $? -ne 0 ]; then
   echo "Node: master (self) not up, please check..."
   exit 1
 fi
+myhost=`hostname`
+if [ $myhost != "master" ]; then
+  echo "Not on master, giving up..."
+  exit 1
+fi
 
 # make sure to have entropy...
 service rngd start
