@@ -29,6 +29,7 @@ ssh master ipvsadm -C
 ssh master iptables -A INPUT -p tcp --dport 6443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
 ssh master iptables -A OUTPUT -p tcp --sport 6443 -m conntrack --ctstate ESTABLISHED -j ACCEPT
 ssh master swapoff --all
+ssh master modprobe br_netfilter
 
 # start new one.
 echo ""
@@ -72,6 +73,7 @@ ssh green iptables -t nat -F
 ssh green iptables -t mangle -F
 ssh green iptables -X
 ssh green ipvsadm -C
+ssh green modprobe br_netfilter
 
 ssh blue kubeadm reset -f
 ssh blue setenforce 0
@@ -81,6 +83,7 @@ ssh blue iptables -t nat -F
 ssh blue iptables -t mangle -F
 ssh blue iptables -X
 ssh blue ipvsadm -C
+ssh blue modprobe br_netfilter
 
 # start new stuff.
 ssh green ${TOKEN}
