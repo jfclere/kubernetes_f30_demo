@@ -11,6 +11,7 @@ ssh green iptables -t nat -F
 ssh green iptables -t mangle -F
 ssh green iptables -X
 ssh green ipvsadm -C
+ssh green modprobe br_netfilter
 
 ssh blue kubeadm reset -f
 ssh blue setenforce 0
@@ -19,7 +20,8 @@ ssh blue iptables -F
 ssh blue iptables -t nat -F
 ssh blue iptables -t mangle -F
 ssh blue iptables -X
-ipvsadm -C
+ssh blue ipvsadm -C
+ssh green modprobe br_netfilter
 
 # start new stuff.
 ssh green ${TOKEN}
